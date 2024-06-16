@@ -20,8 +20,6 @@ function InterviewList() {
         .from(MockInterview)
         .where(eq(MockInterview.createdBy,user?.primaryEmailAddress?.emailAddress))
         .orderBy(desc(MockInterview.id));
-
-        console.log(result);
         setInterviewList(result);
     }
 
@@ -33,11 +31,11 @@ function InterviewList() {
             {interviewList?.length>0?interviewList.map((interview,index)=>(
                 <InterviewItemCard 
                 interview={interview}
-                key={index} />
+                key={interview.id} />
             ))
             :
             [1,2,3,4].map((item,index)=>(
-                <div className='h-[100px] w-full bg-gray-200 animate-pulse rounded-lg '>
+                <div key={index} className='h-[100px] w-full bg-gray-200 animate-pulse rounded-lg '>
                 </div>
             ))
         }

@@ -32,14 +32,12 @@ function AddNewInterview() {
     const onSubmit=async(e)=>{
         setLoading(true)
         e.preventDefault()
-        console.log(jobPosition,jobDesc,jobExperience);
 
         // const InputPrompt="Job position: "+jobPosition+", Job Description: "+jobDesc+", Years of Experience : "+jobExperience+" , Depends on Job Position, Job Description & Years of Experience give us "+process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT+" Interview question along with Answer in JSON format, Give us question and answer field on JSON"
         const InputPrompt="Job position: "+jobPosition+", Job Description: "+jobDesc+", Years of Experience : "+jobExperience+" , Depends on Job Position, Job Description & Years of Experience give us 5-10 mixed up of Technical and HR Interview question along with Answer in JSON format, Give us question and answer field on JSON"
 
         const result=await chatSession.sendMessage(InputPrompt);
         const MockJsonResp=(result.response.text()).replace('```json','').replace('```','')
-        console.log(JSON.parse(MockJsonResp));
         setJsonResponse(MockJsonResp);
 
         if(MockJsonResp)
@@ -55,7 +53,6 @@ function AddNewInterview() {
             createdAt:moment().format('DD-MM-yyyy')
         }).returning({mockId:MockInterview.mockId});
 
-        console.log("Inserted ID:",resp)
         if(resp)
         {
             setOpenDailog(false);

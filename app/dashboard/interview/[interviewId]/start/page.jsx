@@ -22,7 +22,6 @@ function StartInterview({params}) {
         .where(eq(MockInterview.mockId,params.interviewId))
 
         const jsonMockResp=JSON.parse(result[0].jsonMockResp);
-        console.log(jsonMockResp)
         setMockInterviewQuestion(jsonMockResp);
         setInterviewData(result[0]);
     } 

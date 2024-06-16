@@ -8,17 +8,17 @@ import React, { useEffect } from 'react'
 function Header() {
 
     const path=usePathname();
-    useEffect(()=>{
-        console.log(path)
-    },[])
+    // useEffect(()=>{
+    //     console.log(path)
+    // },[])
 
   return (
-    <div className='flex p-4 items-center justify-between bg-gradient-to-r from-blue-200 to-blue-300 border-b border-gray-200 dark:bg-gray-900 shadow-sm'>
+    <div className='flex p-4 items-center justify-between text-white bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 border-b border-gray-200 dark:bg-gray-900 shadow-sm'>
         {/* <Image src={'/logo.svg'} width={160} height={100} alt='logo' /> */}
         <h1
-          smooth={true}
+          smooth={true.toString()}
           duration={500}
-          className="text-2xl font-bold cursor-pointer text-gray-700"
+          className="text-2xl font-bold cursor-pointer text-white"
         >
           Mocker.AI
         </h1>

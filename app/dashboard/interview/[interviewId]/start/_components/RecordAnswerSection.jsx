@@ -55,7 +55,6 @@ function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, inter
 
   const UpdateUserAnswer = async () => {
 
-    console.log(userAnswer)
     setLoading(true)
     const feedbackPrompt = "Question:" + mockInterviewQuestion[activeQuestionIndex]?.question +
       ", User Answer:" + userAnswer + ",Depends on question and user answer for give interview question " +
@@ -92,7 +91,7 @@ function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, inter
     <div className='flex items-center justify-center flex-col'>
       <div className='flex flex-col mt-20 justify-center items-center bg-black rounded-lg p-5'>
         <Image src={'/webcam.png'} width={200} height={200}
-          className='absolute' />
+          className='absolute' alt='Webcam Image'/>
         <Webcam
           mirrored={true}
           style={{
