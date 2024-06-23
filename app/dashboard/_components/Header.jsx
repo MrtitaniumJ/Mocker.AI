@@ -1,53 +1,61 @@
 "use client"
 import { UserButton } from '@clerk/nextjs'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 function Header() {
-
-    const path=usePathname();
-    // useEffect(()=>{
-    //     console.log(path)
-    // },[])
+  const path = usePathname();
 
   return (
-    <div className='flex p-4 items-center justify-between text-white bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 border-b border-gray-200 dark:bg-gray-900 shadow-sm'>
-        {/* <Image src={'/logo.svg'} width={160} height={100} alt='logo' /> */}
-        <h1
-          smooth={true.toString()}
-          duration={500}
-          className="text-2xl font-bold cursor-pointer text-white"
-        >
+    <div className='flex p-4 items-center justify-between bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 shadow-md'>
+      <Link href="/">
+        <h1 className="text-3xl font-extrabold cursor-pointer text-white">
           Mocker.AI
         </h1>
-        <ul className='hidden md:flex gap-6'>
-          <Link href={"/dashboard"}>
-            <li className={`hover:text-blue-500 hover:font-bold transition-all
-            cursor-pointer
-            ${path=='/dashboard'&&'text-blue-500 font-bold'}
+      </Link>
+
+      <ul className='hidden md:flex gap-8'>
+        <Link href="/dashboard">
+          <li className={`hover:text-white transition-all
+            cursor-pointer px-3 py-1 rounded-md
+            ${path == '/dashboard' ? 'bg-white text-blue-700 font-bold' : 'text-white'}
             `}
-            
-            >Dashboard</li>
-            </Link>
-            
-            <li className={`hover:text-blue-500 hover:font-bold transition-all
-            cursor-pointer
-            ${path=='/dashboard/questions'&&'text-blue-500 font-bold'}
-            `}>Questions</li>
-              <Link href={"/dashboard/upgrade"}>
-            <li className={`hover:text-blue-500 hover:font-bold transition-all
-            cursor-pointer
-            ${path=='/dashboard/upgrade'&&'text-blue-500 font-bold'}
-            `}>Upgrade</li>
-            </Link>
-            <li className={`hover:text-blue-500 hover:font-bold transition-all
-            cursor-pointer
-            ${path=='/dashboard/how'&&'text-blue-500 font-bold'}
-            `}>How it Works?</li>
-        </ul>
-        <UserButton/>
+          >
+            Dashboard
+          </li>
+        </Link>
+        <Link href="/dashboard/questions">
+          <li className={`hover:text-white transition-all
+            cursor-pointer px-3 py-1 rounded-md
+            ${path == '/dashboard/questions' ? 'bg-white text-blue-700 font-bold' : 'text-white'}
+            `}
+          >
+            Questions
+          </li>
+        </Link>
+        <Link href="/dashboard/upgrade">
+          <li className={`hover:text-white transition-all
+            cursor-pointer px-3 py-1 rounded-md
+            ${path == '/dashboard/upgrade' ? 'bg-white text-blue-700 font-bold' : 'text-white'}
+            `}
+          >
+            Upgrade
+          </li>
+        </Link>
+        <Link href="/dashboard/how-it-works">
+          <li className={`hover:text-white transition-all
+            cursor-pointer px-3 py-1 rounded-md
+            ${path == '/dashboard/how-it-works' ? 'bg-white text-blue-700 font-bold' : 'text-white'}
+            `}
+          >
+            How it Works?
+          </li>
+        </Link>
+      </ul>
+      <div className='flex items-center gap-4'>
+        <UserButton />
+      </div>
     </div>
   )
 }

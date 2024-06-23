@@ -2,43 +2,35 @@
 import { useUser } from '@clerk/nextjs'
 import React from 'react'
 
-function PlanItemCard({plan}) {
-  const {user}=useUser();
+function PlanItemCard({ plan }) {
+  const { user } = useUser();
   return (
-    <div className="rounded-2xl border border-gray-200 p-6 shadow-sm sm:px-8 lg:p-12">
-    <div className="text-center">
-
-      <h2 className="text-lg font-medium text-gray-900">
-        {plan.name}
-        <span className="sr-only">Plan</span>
-      </h2>
-
-      <p className="mt-2 sm:mt-4">
-        <strong className="text-3xl font-bold text-gray-900 sm:text-4xl"> {plan.cost}$ </strong>
-
-        <span className="text-sm font-medium text-gray-700">/month</span>
-      </p>
-    </div>
-
-    <ul className="mt-6 space-y-2">
-        {plan.offering.map((item,index)=>(
-             <li className="flex items-center gap-1 mb-2">
-                <h2 className="text-gray-700">{item.value}</h2>
-             </li>
+    <div className="rounded-2xl border border-gray-200 p-6 shadow-lg bg-white">
+      <div className="text-center">
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+          {plan.name}
+        </h2>
+        <p className="text-4xl font-bold text-indigo-600">
+          {plan.cost}$
+          <span className="text-lg font-medium text-gray-600">/month</span>
+        </p>
+      </div>
+      <ul className="mt-6 space-y-4 text-gray-700">
+        {plan.offering.map((item, index) => (
+          <li className="flex items-center gap-2" key={index}>
+            <span className="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+            {item.value}
+          </li>
         ))}
-     
-
-  
-    </ul>
-
-    <a
-      href={plan.paymentLink+'?prefilled_email='+user?.primaryEmailAddress.emailAddress}
-      target='_blank'
-      className="mt-8 block rounded-full border border-indigo-600 bg-white px-12 py-3 text-center text-sm font-medium text-indigo-600 hover:ring-1 hover:ring-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-    >
-      Get Started
-    </a>
-  </div>
+      </ul>
+      <a
+        href={`${plan.paymentLink}?prefilled_email=${user?.primaryEmailAddress.emailAddress}`}
+        target='_blank'
+        className="mt-8 block rounded-full bg-indigo-600 text-white px-6 py-3 text-center text-sm font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        Get Started
+      </a>
+    </div>
   )
 }
 
