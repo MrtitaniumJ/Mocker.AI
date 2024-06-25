@@ -34,7 +34,9 @@ function AddNewInterview() {
     setLoading(true);
     e.preventDefault();
 
-    const InputPrompt = "Job position: " + jobPosition + ", Job Description: " + jobDesc + ", Years of Experience : " + jobExperience + " , Depends on Job Position, Job Description & Years of Experience give us 5-10 mixed up of Technical and HR Interview question along with Answer in JSON format, Give us question and answer field on JSON";
+    // const InputPrompt = "Job position: " + jobPosition + ", Job Description: " + jobDesc + ", Years of Experience : " + jobExperience + " , Depends on Job Position, Job Description & Years of Experience give us 5-10 mixed up of Technical and HR Interview question along with Answer in JSON format, Give us question and answer field on JSON";
+    const InputPrompt = `Job position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}. Provide 5-10 mixed technical and HR interview questions and answers in JSON format, with fields "question" and "answer". Do not write any additional thing than this`;
+
 
     const result = await chatSession.sendMessage(InputPrompt);
     const MockJsonResp = result.response.text().replace('```json', '').replace('```', '').trim(); // Trim here
