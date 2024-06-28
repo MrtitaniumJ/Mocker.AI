@@ -71,33 +71,25 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-4xl font-semibold text-center mb-12 text-indigo-600">Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="flex items-center transform hover:scale-105 transition duration-300 ease-in-out">
-              <div className="flex-shrink-0 bg-gray-100 rounded-lg p-6 shadow-lg">
-                <FiClipboard className="text-5xl text-indigo-600 mb-6" />
-                <h3 className="text-2xl font-bold mb-4 text-indigo-600">Interview Topics</h3>
-                <p className="text-gray-600">Cover a wide range of interview topics relevant to your field.</p>
-              </div>
+            <div className="flex flex-col items-center p-6 bg-gray-100 rounded-lg shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
+              <FiClipboard className="text-5xl text-indigo-600 mb-6" />
+              <h3 className="text-2xl font-bold mb-4 text-indigo-600">Interview Topics</h3>
+              <p className="text-gray-600">Cover a wide range of interview topics relevant to your field.</p>
             </div>
-            <div className="flex items-center transform hover:scale-105 transition duration-300 ease-in-out">
-              <div className="flex-shrink-0 bg-gray-100 rounded-lg p-6 shadow-lg">
-                <FiCheckCircle className="text-5xl text-indigo-600 mb-6" />
-                <h3 className="text-2xl font-bold mb-4 text-indigo-600">Detailed Feedback</h3>
-                <p className="text-gray-600">Receive detailed feedback on your interview performance.</p>
-              </div>
+            <div className="flex flex-col items-center p-6 bg-gray-100 rounded-lg shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
+              <FiCheckCircle className="text-5xl text-indigo-600 mb-6" />
+              <h3 className="text-2xl font-bold mb-4 text-indigo-600">Detailed Feedback</h3>
+              <p className="text-gray-600">Receive detailed feedback on your interview performance.</p>
             </div>
-            <div className="flex items-center transform hover:scale-105 transition duration-300 ease-in-out">
-              <div className="flex-shrink-0 bg-gray-100 rounded-lg p-6 shadow-lg">
-                <FiClock className="text-5xl text-indigo-600 mb-6" />
-                <h3 className="text-2xl font-bold mb-4 text-indigo-600">Time Management</h3>
-                <p className="text-gray-600">Improve your time management skills during interviews.</p>
-              </div>
+            <div className="flex flex-col items-center p-6 bg-gray-100 rounded-lg shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
+              <FiClock className="text-5xl text-indigo-600 mb-6" />
+              <h3 className="text-2xl font-bold mb-4 text-indigo-600">Time Management</h3>
+              <p className="text-gray-600">Improve your time management skills during interviews.</p>
             </div>
-            <div className="flex items-center transform hover:scale-105 transition duration-300 ease-in-out">
-              <div className="flex-shrink-0 bg-gray-100 rounded-lg p-6 shadow-lg">
-                <FiThumbsUp className="text-5xl text-indigo-600 mb-6" />
-                <h3 className="text-2xl font-bold mb-4 text-indigo-600">User-friendly Interface</h3>
-                <p className="text-gray-600">Enjoy a simple and intuitive user interface.</p>
-              </div>
+            <div className="flex flex-col items-center p-6 bg-gray-100 rounded-lg shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
+              <FiThumbsUp className="text-5xl text-indigo-600 mb-6" />
+              <h3 className="text-2xl font-bold mb-4 text-indigo-600">User-friendly Interface</h3>
+              <p className="text-gray-600">Enjoy a simple and intuitive user interface.</p>
             </div>
           </div>
         </div>
