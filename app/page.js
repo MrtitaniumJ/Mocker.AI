@@ -3,7 +3,6 @@ import { useRef } from "react";
 import Header from "./dashboard/_components/Header";
 import { FiUserPlus, FiSettings, FiPlayCircle, FiClipboard, FiCheckCircle, FiClock, FiThumbsUp } from 'react-icons/fi';
 import Footer from "./dashboard/_components/Footer";
-import Particles from 'react-tsparticles';
 
 export default function Home() {
   const nextSectionRef = useRef(null);
