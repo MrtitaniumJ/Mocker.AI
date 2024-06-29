@@ -1,25 +1,35 @@
 "use client"
-import { Button } from '@/components/ui/button'
-import { db } from '@/utils/db'
-import { MockInterview } from '@/utils/schema'
-import { eq } from 'drizzle-orm'
-import { Lightbulb, WebcamIcon } from 'lucide-react'
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
-import Webcam from 'react-webcam'
+import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { db } from '@/utils/db';
+import { MockInterview } from '@/utils/schema';
+import { eq } from 'drizzle-orm';
+import { Lightbulb, WebcamIcon, Edit3 } from 'lucide-react';
+import Link from 'next/link';
+import Webcam from 'react-webcam';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 function Interview({ params }) {
-    const [interviewData, setInterviewData] = useState();
+    const [interviewData, setInterviewData] = useState(null);
     const [webCamEnabled, setWebCamEnabled] = useState(false);
+    const [openEditDialog, setOpenEditDialog] = useState(false);
 
     useEffect(() => {
-        GetInterviewDetails();
-    }, [])
+        getInterviewDetails();
+    }, []);
 
-    const GetInterviewDetails = async () => {
+    const getInterviewDetails = async () => {
         try {
             const result = await db.select().from(MockInterview)
-                .where(eq(MockInterview.mockId, params.interviewId))
+                .where(eq(MockInterview.mockId, params.interviewId));
 
             if (result.length > 0) {
                 setInterviewData(result[0]);
@@ -30,7 +40,24 @@ function Interview({ params }) {
             console.log('Error fetching interview details: ', error);
             throw new Error(error.message);
         }
-    }
+    };
+
+    const handleEditDetails = async (updatedDetails) => {
+        try {
+            await db.update(MockInterview)
+                .set(updatedDetails)
+                .where(eq(MockInterview.mockId, params.interviewId));
+            setInterviewData(updatedDetails);
+            setOpenEditDialog(false); // Close the dialog after editing
+        } catch (error) {
+            console.log('Error updating interview details: ', error);
+            throw new Error(error.message);
+        }
+    };
+
+    const openEditDialogHandler = () => {
+        setOpenEditDialog(true);
+    };
 
     return (
         <div className='p-10 bg-gradient-to-r from-blue-200 to-blue-300 min-h-screen text-gray-800'>
@@ -38,7 +65,11 @@ function Interview({ params }) {
             <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
 
                 <div className='flex flex-col gap-5'>
-                    <div className='p-6 rounded-lg bg-white shadow-lg'>
+                    <div className='p-6 rounded-lg bg-white shadow-lg relative'>
+                        <Edit3 
+                            className='absolute top-2 right-2 cursor-pointer text-gray-400 hover:text-gray-600'
+                            onClick={openEditDialogHandler} // Ensure this handler is correctly set
+                        />
                         <h2 className='text-xl mb-2'><strong>Job Role/Job Position:</strong> {interviewData?.jobPosition} </h2>
                         <h2 className='text-lg mb-2'><strong>Job Description/Tech Stack:</strong> {interviewData?.jobDesc} </h2>
                         <h2 className='text-lg'><strong>Years of Experience:</strong> {interviewData?.jobExperience} </h2>
@@ -77,8 +108,57 @@ function Interview({ params }) {
                     <Button className='bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg shadow-lg'>Start Interview</Button>
                 </Link>
             </div>
+
+            <Dialog open={openEditDialog} onOpenChange={setOpenEditDialog}>
+                <DialogContent className='max-w-2xl bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 dark:bg-gray-900 text-white rounded-lg'>
+                    <DialogHeader>
+                        <DialogTitle className='text-3xl mb-5'>Edit Interview Details</DialogTitle>
+                        <DialogDescription>
+                            {interviewData && (
+                                <EditInterviewForm
+                                    interviewData={interviewData}
+                                    onSave={handleEditDetails}
+                                    onClose={() => setOpenEditDialog(false)}
+                                />
+                            )}
+                        </DialogDescription>
+                    </DialogHeader>
+                </DialogContent>
+            </Dialog>
         </div>
-    )
+    );
 }
 
-export default Interview
+function EditInterviewForm({ interviewData, onSave, onClose }) {
+    const [jobPosition, setJobPosition] = useState(interviewData?.jobPosition || '');
+    const [jobDesc, setJobDesc] = useState(interviewData?.jobDesc || '');
+    const [jobExperience, setJobExperience] = useState(interviewData?.jobExperience || '');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSave({ jobPosition, jobDesc, jobExperience });
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <div className='my-4'>
+                <label>Job Role/Job Position</label>
+                <Input className="bg-white text-black mt-2" placeholder="Ex. Full Stack Developer" value={jobPosition} onChange={(e) => setJobPosition(e.target.value)} />
+            </div>
+            <div className='my-4'>
+                <label>Job Description/Tech Stack (In Short)</label>
+                <Textarea className="bg-white text-black mt-2" placeholder="Ex. React, NextJs, NodeJs, MySql etc" value={jobDesc} onChange={(e) => setJobDesc(e.target.value)} />
+            </div>
+            <div className='my-4'>
+                <label>Years of experience</label>
+                <Input className="bg-white text-black mt-2" placeholder="Ex. 5" type="number" value={jobExperience} onChange={(e) => setJobExperience(e.target.value)} />
+            </div>
+            <div className='flex gap-5 justify-end'>
+                <Button className="bg-gray-300 hover:bg-gray-400 text-gray-700" type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+                <Button className="bg-blue-600 hover:bg-blue-700" type="submit">Save</Button>
+            </div>
+        </form>
+    );
+}
+
+export default Interview;
