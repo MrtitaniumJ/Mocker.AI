@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { db } from '@/utils/db';
 import { MockInterview } from '@/utils/schema';
 import { eq } from 'drizzle-orm';
-import { Lightbulb, WebcamIcon, Edit3 } from 'lucide-react';
+import { Lightbulb, WebcamIcon, Edit3, LoaderCircle } from 'lucide-react';
 import Link from 'next/link';
 import Webcam from 'react-webcam';
 import {
@@ -16,11 +16,13 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { chatSession } from '@/utils/GeminiAIModal';
 
 function Interview({ params }) {
     const [interviewData, setInterviewData] = useState(null);
     const [webCamEnabled, setWebCamEnabled] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getInterviewDetails();
@@ -43,15 +45,34 @@ function Interview({ params }) {
     };
 
     const handleEditDetails = async (updatedDetails) => {
+        setLoading(true);
         try {
             await db.update(MockInterview)
                 .set(updatedDetails)
                 .where(eq(MockInterview.mockId, params.interviewId));
-            setInterviewData(updatedDetails);
-            setOpenEditDialog(false); // Close the dialog after editing
+
+            // Generate new questions and answers based on the updated details
+            const InputPrompt = `Job position: ${updatedDetails.jobPosition}, Job Description: ${updatedDetails.jobDesc}, Years of Experience: ${updatedDetails.jobExperience}. Provide 5-10 mixed technical and HR interview questions and answers in JSON format, with fields "question" and "answer". Do not write any additional thing than this`;
+
+            const result = await chatSession.sendMessage(InputPrompt);
+            const MockJsonResp = result.response.text().replace('```json', '').replace('```', '').trim();
+
+            if (MockJsonResp) {
+                await db.update(MockInterview)
+                    .set({ jsonMockResp: MockJsonResp })
+                    .where(eq(MockInterview.mockId, params.interviewId));
+            } else {
+                console.log("Error generating new questions");
+            }
+
+            // Update local state
+            setInterviewData({ ...updatedDetails, jsonMockResp: MockJsonResp });
+            setOpenEditDialog(false);
         } catch (error) {
             console.log('Error updating interview details: ', error);
             throw new Error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -119,6 +140,7 @@ function Interview({ params }) {
                                     interviewData={interviewData}
                                     onSave={handleEditDetails}
                                     onClose={() => setOpenEditDialog(false)}
+                                    loading={loading}
                                 />
                             )}
                         </DialogDescription>
@@ -129,7 +151,7 @@ function Interview({ params }) {
     );
 }
 
-function EditInterviewForm({ interviewData, onSave, onClose }) {
+function EditInterviewForm({ interviewData, onSave, onClose, loading }) {
     const [jobPosition, setJobPosition] = useState(interviewData?.jobPosition || '');
     const [jobDesc, setJobDesc] = useState(interviewData?.jobDesc || '');
     const [jobExperience, setJobExperience] = useState(interviewData?.jobExperience || '');
@@ -155,7 +177,13 @@ function EditInterviewForm({ interviewData, onSave, onClose }) {
             </div>
             <div className='flex gap-5 justify-end'>
                 <Button className="bg-gray-300 hover:bg-gray-400 text-gray-700" type="button" variant="ghost" onClick={onClose}>Cancel</Button>
-                <Button className="bg-blue-600 hover:bg-blue-700" type="submit">Save</Button>
+                <Button className="bg-blue-600 hover:bg-blue-700" type="submit" disabled={loading}>
+                    {loading ? (
+                        <>
+                            <LoaderCircle className='animate-spin' /> Updating Info...
+                        </>
+                    ) : 'Update'}
+                </Button>
             </div>
         </form>
     );
