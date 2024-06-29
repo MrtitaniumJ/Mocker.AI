@@ -1,50 +1,51 @@
+"use client"
+import { useRef } from "react";
 import Header from "./dashboard/_components/Header";
 import { FiUserPlus, FiSettings, FiPlayCircle, FiClipboard, FiCheckCircle, FiClock, FiThumbsUp } from 'react-icons/fi';
 import Footer from "./dashboard/_components/Footer";
 
 export default function Home() {
+  const nextSectionRef = useRef(null);
+
+  const scrollDown = () => {
+    if (nextSectionRef.current) {
+      nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900">
       <Header />
       {/* Hero section */}
-      <section className="flex flex-col items-center justify-center flex-1 text-center p-8 bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 text-white h-screen">
-        <h1 className="text-6xl font-extrabold mb-4 drop-shadow-lg">
-          Welcome to Your Smart AI Mock Interviewer
-        </h1>
-        <p className="text-2xl mb-8 drop-shadow-lg">
-          Double your chances of landing that job offer with our AI-powered interview prep.
-        </p>
-        <div className="flex space-x-4 mb-8">
-          <a href="/dashboard" className="bg-white text-indigo-600 hover:bg-indigo-700 hover:text-white py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">Get Started</a>
-          <a href="/dashboard/how-it-works" className="bg-transparent border border-white hover:bg-white hover:text-indigo-600 text-white py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
-            Learn More
-          </a>
+      <section className="relative flex flex-col items-center justify-center flex-1 text-center p-8 bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 text-white h-screen">
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="relative z-20 max-w-4xl mx-auto text-shadow-lg">
+          <h1 className="text-6xl md:text-8xl font-extrabold mb-6 drop-shadow-lg">
+            Your AI Mock Interviewer
+          </h1>
+          <p className="text-2xl md:text-3xl mb-8 drop-shadow-lg">
+            Enhance your interview skills and boost your chances of landing your dream job.
+          </p>
+          <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-16 justify-center">
+            <a href="/dashboard" className="bg-white text-indigo-600 hover:bg-indigo-700 hover:text-white py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+              Get Started
+            </a>
+            <a href="/dashboard/how-it-works" className="bg-transparent border border-white hover:bg-white hover:text-indigo-600 text-white py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+              Learn More
+            </a>
+          </div>
+        </div>
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center z-20">
+          <button onClick={scrollDown} className="text-white bg-transparent hover:text-indigo-300 transition duration-300 ease-in-out">
+            <svg className="w-10 h-10 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
         </div>
       </section>
 
-      {/* <div className="relative w-full h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('https://images.pexels.com/photos/840996/pexels-photo-840996.jpeg?auto=compress&cs=tinysrgb&w=1600')" }}>
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative z-10 text-center text-white max-w-2xl">
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 animate-fade-in-down">Your Smart AI Mock Interviewer</h1>
-          <p className="text-xl md:text-3xl mb-8 animate-fade-in-up">Double your chances of landing that job offer with our AI-powered interview prep.</p>
-          <div className="flex justify-center space-x-4 mb-8 animate-fade-in-up">
-            <a href="/dashboard" className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">Get Started</a>
-            <a href="/dashboard/how-it-works" className="bg-transparent border border-white hover:bg-indigo-600 text-white py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">Learn More</a>
-          </div>
-          <div className="mt-8">
-            <button className="w-10 h-10 text-white bg-indigo-600 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-110">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 m-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132a1 1 0 00-1.556.832v4.264a1 1 0 001.556.832l3.197-2.132a1 1 0 000-1.664z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h.01" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h1v8H4zm15-4h1v16h-1z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div> */}
-
       {/* How it works section */}
-      <section className="bg-gray-100 text-gray-800 py-16">
+      <section ref={nextSectionRef} className="bg-gray-100 text-gray-800 py-16">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-semibold text-center mb-12 text-indigo-600">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
