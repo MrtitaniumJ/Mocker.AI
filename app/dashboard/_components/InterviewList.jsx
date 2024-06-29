@@ -22,6 +22,10 @@ function InterviewList() {
     setInterviewList(result);
   }
 
+  const handleDelete = (deleteId) => {
+    setInterviewList(interviewList.filter(interview => interview.id !== deleteId));
+  }
+
   return (
     <div>
       <h2 className='font-medium text-2xl text-white mb-5'>Previous Mock Interviews</h2>
@@ -29,7 +33,9 @@ function InterviewList() {
         {interviewList?.length > 0 ? interviewList.map((interview, index) => (
           <InterviewItemCard
             interview={interview}
-            key={interview.id} />
+            key={interview.id}
+            onDelete={handleDelete}
+          />
         ))
           :
           [1, 2, 3, 4].map((item, index) => (
