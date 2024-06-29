@@ -3,6 +3,7 @@ import { useRef } from "react";
 import Header from "./dashboard/_components/Header";
 import { FiUserPlus, FiSettings, FiPlayCircle, FiClipboard, FiCheckCircle, FiClock, FiThumbsUp } from 'react-icons/fi';
 import Footer from "./dashboard/_components/Footer";
+import Particles from 'react-tsparticles';
 
 export default function Home() {
   const nextSectionRef = useRef(null);
@@ -46,7 +47,7 @@ export default function Home() {
 
       {/* How it works section */}
       <section ref={nextSectionRef} className="bg-gray-100 text-gray-800 py-16">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-4xl font-semibold text-center mb-12 text-indigo-600">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
