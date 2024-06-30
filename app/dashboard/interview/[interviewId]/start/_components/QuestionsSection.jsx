@@ -48,6 +48,8 @@ function QuestionsSection({
       </div>
       <h2 className='my-5 text-md md:text-lg'>{mockInterviewQuestion[activeQuestionIndex]?.question}</h2>
       <Volume2 className='cursor-pointer' onClick={() => textToSpeech(mockInterviewQuestion[activeQuestionIndex]?.question)} />
+      
+      {/* Next Public Question Note Section */}
       <div className='border rounded-lg p-5 bg-blue-100 mt-10'>
         <h2 className='flex gap-2 items-center text-blue-700'>
           <Lightbulb />
