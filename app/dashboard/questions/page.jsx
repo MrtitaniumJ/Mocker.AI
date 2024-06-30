@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { db } from '@/utils/db';
-import { UserAnswer, MockInterview } from '@/utils/schema';
+import { MockInterview } from '@/utils/schema';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronsUpDown } from 'lucide-react';
 
@@ -15,13 +15,16 @@ function QuestionsPage() {
   const fetchInterviews = async () => {
     try {
       const fetchedInterviews = await db.select().from(MockInterview);
-      const questions = await db.select().from(UserAnswer);
 
       const groupedData = fetchedInterviews.map(interview => {
-        const interviewQuestions = questions.filter(q => q.mockIdRef === interview.mockId);
+        const interviewData = JSON.parse(interview.jsonMockResp);
         return {
           ...interview,
-          questions: interviewQuestions
+          questions: interviewData.map(q => ({
+            question: q.question,
+            correctAnswer: q.answer,
+            userAnswer: q.userAnswer || null,
+          })) || []
         };
       });
 
@@ -48,17 +51,26 @@ function QuestionsPage() {
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-gray-100 p-6 rounded-lg">
               <div className="space-y-4">
-                {interview.questions.map((question, qIndex) => (
-                  <Collapsible key={qIndex} className="rounded-lg shadow-md">
-                    <CollapsibleTrigger className="p-3 bg-blue-500 text-white rounded-lg flex justify-between items-center my-2 text-left gap-7 w-full shadow-md">
-                      <span className="text-lg">{question.question}</span>
-                      <ChevronsUpDown className="h-5 w-5" />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="bg-white p-4 rounded-lg shadow-md">
-                      <h2 className="text-sm text-gray-700"><strong>Correct Answer:</strong><span className="block bg-green-100 p-2 rounded-lg text-green-900">{question.correctAns}</span></h2>
-                    </CollapsibleContent>
-                  </Collapsible>
-                ))}
+                {interview.questions.length > 0 ? (
+                  interview.questions.map((question, qIndex) => (
+                    <Collapsible key={qIndex} className="rounded-lg shadow-md">
+                      <CollapsibleTrigger className="p-3 bg-blue-500 text-white rounded-lg flex justify-between items-center my-2 text-left gap-7 w-full shadow-md">
+                        <span className="text-lg">{question.question}</span>
+                        <ChevronsUpDown className="h-5 w-5" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="bg-white p-4 rounded-lg shadow-md">
+                        <h2 className="text-sm text-gray-700"><strong>Correct Answer:</strong><span className="block bg-green-100 p-2 rounded-lg text-green-900">{question.correctAnswer}</span></h2>
+                        {question.userAnswer && (
+                          <div className="mt-2">
+                            <h2 className="text-sm text-gray-700"><strong>User Answer:</strong><span className="block bg-yellow-100 p-2 rounded-lg text-yellow-900">{question.userAnswer}</span></h2>
+                          </div>
+                        )}
+                      </CollapsibleContent>
+                    </Collapsible>
+                  ))
+                ) : (
+                  <h2 className="text-center text-gray-700">No questions available for this interview.</h2>
+                )}
               </div>
             </CollapsibleContent>
           </Collapsible>
