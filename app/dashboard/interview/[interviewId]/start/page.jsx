@@ -12,6 +12,7 @@ function StartInterview({ params }) {
   const [interviewData, setInterviewData] = useState(null);
   const [mockInterviewQuestion, setMockInterviewQuestion] = useState([]);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
+  const [answeredQuestions, setAnsweredQuestions] = useState([]);
 
   useEffect(() => {
     GetInterviewDetails();
@@ -26,20 +27,30 @@ function StartInterview({ params }) {
     setInterviewData(result[0]);
   }
 
+  const handleQuestionAnswered = (index) => {
+    if (!answeredQuestions.includes(index)) {
+      setAnsweredQuestions([...answeredQuestions, index]);
+    }
+  }
+
   return (
     <div className='p-10 bg-gradient-to-br from-blue-200 to-blue-300 min-h-screen text-gray-800'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
-        {/* Questions  */}
+        {/* Questions */}
         <QuestionsSection
           mockInterviewQuestion={mockInterviewQuestion}
           activeQuestionIndex={activeQuestionIndex}
+          setActiveQuestionIndex={setActiveQuestionIndex}
+          answeredQuestions={answeredQuestions}
+          setAnsweredQuestions={setAnsweredQuestions}
         />
 
-        {/* Video/ Audio Recording  */}
+        {/* Video/ Audio Recording */}
         <RecordAnswerSection
           mockInterviewQuestion={mockInterviewQuestion}
           activeQuestionIndex={activeQuestionIndex}
           interviewData={interviewData}
+          onAnswerRecorded={handleQuestionAnswered}
         />
       </div>
       <div className='flex justify-end gap-6 mt-10'>

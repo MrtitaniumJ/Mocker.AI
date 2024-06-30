@@ -12,7 +12,7 @@ import { UserAnswer } from '@/utils/schema'
 import { useUser } from '@clerk/nextjs'
 import moment from 'moment'
 
-function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, interviewData }) {
+function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, interviewData, onAnswerRecorded }) {
   const [userAnswer, setUserAnswer] = useState('');
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
@@ -74,6 +74,7 @@ function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, inter
       toast('User Answer recorded successfully');
       setUserAnswer('');
       setResults([]);
+      onAnswerRecorded(activeQuestionIndex); // Callback to mark the question as answered
     }
     setResults([]);
     setLoading(false);
