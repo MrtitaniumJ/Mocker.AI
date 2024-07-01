@@ -22,22 +22,22 @@ function Header() {
 
       <div className='hidden md:flex gap-8'>
         <Link href="/dashboard">
-          <div className={`hover:text-white transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
+          <div className={`hover:text-white hover:bg-blue-700 transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
             Dashboard
           </div>
         </Link>
         <Link href="/dashboard/questions">
-          <div className={`hover:text-white transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/questions' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
+          <div className={`hover:text-white hover:bg-blue-700 transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/questions' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
             Questions
           </div>
         </Link>
         <Link href="/dashboard/upgrade">
-          <div className={`hover:text-white transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/upgrade' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
+          <div className={`hover:text-white hover:bg-blue-700 transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/upgrade' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
             Upgrade
           </div>
         </Link>
         <Link href="/dashboard/how-it-works">
-          <div className={`hover:text-white transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/how-it-works' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
+          <div className={`hover:text-white hover:bg-blue-700 transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/how-it-works' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
             How it Works?
           </div>
         </Link>
@@ -62,29 +62,29 @@ function Header() {
                 Mocker.AI
               </h1>
             </Link>
-            <button className="text-white focus:outline-none" onClick={handleNavToggle}>
+            <button className="text-white hover:bg-blue-700 focus:outline-none" onClick={handleNavToggle}>
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
             </button>
           </div>
           <Link href="/dashboard">
-            <div className={`hover:text-white transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
+            <div className={`hover:text-white hover:bg-blue-700 transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
               Dashboard
             </div>
           </Link>
           <Link href="/dashboard/questions">
-            <div className={`hover:text-white transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/questions' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
+            <div className={`hover:text-white hover:bg-blue-700 transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/questions' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
               Questions
             </div>
           </Link>
           <Link href="/dashboard/upgrade">
-            <div className={`hover:text-white transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/upgrade' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
+            <div className={`hover:text-white hover:bg-blue-700 transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/upgrade' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
               Upgrade
             </div>
           </Link>
           <Link href="/dashboard/how-it-works">
-            <div className={`hover:text-white transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/how-it-works' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
+            <div className={`hover:text-white hover:bg-blue-700 transition-all cursor-pointer px-3 py-1 rounded-md ${path == '/dashboard/how-it-works' ? 'bg-white text-blue-700 font-bold' : 'text-white'}`}>
               How it Works?
             </div>
           </Link>
