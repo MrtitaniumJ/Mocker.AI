@@ -17,7 +17,7 @@ function Header() {
 
       <ul className='hidden md:flex gap-8'>
         <Link href="/dashboard">
-          <li className={`hover:text-white transition-all
+          <li className={`hover:text-white hover:bg-blue-700 transition-all
             cursor-pointer px-3 py-1 rounded-md
             ${path == '/dashboard' ? 'bg-white text-blue-700 font-bold' : 'text-white'}
             `}
@@ -26,7 +26,7 @@ function Header() {
           </li>
         </Link>
         <Link href="/dashboard/questions">
-          <li className={`hover:text-white transition-all
+          <li className={`hover:text-white hover:bg-blue-700 transition-all
             cursor-pointer px-3 py-1 rounded-md
             ${path == '/dashboard/questions' ? 'bg-white text-blue-700 font-bold' : 'text-white'}
             `}
@@ -35,7 +35,7 @@ function Header() {
           </li>
         </Link>
         <Link href="/dashboard/upgrade">
-          <li className={`hover:text-white transition-all
+          <li className={`hover:text-white hover:bg-blue-700 transition-all
             cursor-pointer px-3 py-1 rounded-md
             ${path == '/dashboard/upgrade' ? 'bg-white text-blue-700 font-bold' : 'text-white'}
             `}
@@ -44,7 +44,7 @@ function Header() {
           </li>
         </Link>
         <Link href="/dashboard/how-it-works">
-          <li className={`hover:text-white transition-all
+          <li className={`hover:text-white hover:bg-blue-700 transition-all
             cursor-pointer px-3 py-1 rounded-md
             ${path == '/dashboard/how-it-works' ? 'bg-white text-blue-700 font-bold' : 'text-white'}
             `}
