@@ -370,7 +370,7 @@ export default function Home() {
             Frequently Asked Questions
           </h2>
           <div className="space-y-8">
-            <div className="relative bg-gradient-to-br from-white via-gray-50 to-gray-100 p-8 rounded-lg shadow-xl border border-gray-200 transform hover:shadow-2xl duration-300">
+            <div className="relative bg-gradient-to-br from-white via-yellow-50 to-yellow-100 p-8 rounded-lg shadow-xl border border-gray-200 transform hover:shadow-2xl duration-300">
               <h3 className="text-2xl font-semibold text-gray-800 mb-4">How does the AI generate questions?</h3>
               <p className="text-gray-700">
                 Our AI utilizes advanced algorithms to analyze job profiles and industry standards to generate highly relevant questions tailored to your mock interviews.
