@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import React from 'react';
 import { db } from '@/utils/db';
 import { MockInterview } from '@/utils/schema';
 import { MdOutlineDelete } from "react-icons/md";
@@ -10,11 +10,11 @@ function InterviewItemCard({ interview, onDelete }) {
   const router = useRouter();
 
   const onStart = () => {
-    router.push('/dashboard/interview/' + interview?.mockId)
+    router.push('/dashboard/interview/' + interview?.mockId);
   };
 
   const onFeedbackPress = () => {
-    router.push('/dashboard/interview/' + interview.mockId + "/feedback")
+    router.push('/dashboard/interview/' + interview.mockId + "/feedback");
   };
 
   const onDeleteClick = async () => {
@@ -34,24 +34,34 @@ function InterviewItemCard({ interview, onDelete }) {
   };
 
   return (
-    <div className='p-6 bg-white bg-opacity-30 backdrop-blur-lg rounded-lg shadow-lg text-white'>
-      <div className='absolute top-2 right-2 cursor-pointer text-2xl text-gray-400 hover:text-red-500' onClick={onDeleteClick}>
+    <div className="relative p-6 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 rounded-lg shadow-lg text-gray-800 overflow-hidden">
+      <div className="absolute top-2 right-2 cursor-pointer text-2xl text-gray-500 hover:text-red-600 transition-colors duration-300 transform hover:scale-105" onClick={onDeleteClick}>
         <MdOutlineDelete />
       </div>
 
-      <h2 className='font-bold text-2xl mb-2 text-primary'>{interview?.jobPosition}</h2>
-      <h2 className='text-md text-gray-500 mb-1'>{interview?.jobExperience} Years of Experience</h2>
-      <h2 className='text-sm text-gray-700'>Created At: {interview.createdAt}</h2>
-      <div className='flex justify-between mt-4 gap-5'>
-        <Button size="sm" variant="outline" className="w-full text-gray-700 border-gray-700 hover:bg-gray-700 hover:text-white"
+      <h2 className="text-3xl font-extrabold text-gray-800 mb-2">{interview?.jobPosition}</h2>
+      <h3 className="text-lg font-semibold text-gray-700 mb-1">{interview?.jobExperience} Years of Experience</h3>
+      <p className="text-sm text-gray-600 mb-4">Created At: {interview?.createdAt}</p>
+
+      <div className="flex justify-between gap-4 mt-4">
+        <Button 
+          size="sm" 
+          variant="outline" 
+          className="w-full border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg shadow-md" 
           onClick={onFeedbackPress}
-        >Feedback</Button>
-        <Button size="sm" className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+        >
+          Feedback
+        </Button>
+        <Button 
+          size="sm" 
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-300 rounded-lg shadow-md" 
           onClick={onStart}
-        >Start</Button>
+        >
+          Start
+        </Button>
       </div>
     </div>
-  )
+  );
 }
 
-export default InterviewItemCard
+export default InterviewItemCard;

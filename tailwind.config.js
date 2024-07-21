@@ -21,45 +21,41 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: "#F8F9FA", // Light grey background for better contrast
+        foreground: "#212529", // Dark foreground for text
         primary: {
-          DEFAULT: "#3d52a0",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#1D4ED8", // Primary color - Blue
+          foreground: "#FFFFFF", // Foreground color for primary
         },
         secondary: {
-          // DEFAULT: "hsl(var(--secondary))",
-          DEFAULT: "#7091e6",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "#6C757D", // Secondary color - Grey
+          foreground: "#FFFFFF", // Foreground color for secondary
         },
         destructive: {
-          // DEFAULT: "hsl(var(--destructive))",
-          DEFAULT: "#8697c4",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "#E3342F", // Destructive action color - Red
+          foreground: "#FFFFFF", // Foreground color for destructive
         },
         muted: {
-          // DEFAULT: "hsl(var(--muted))",
-          DEFAULT: "#adbbda",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "#ADB5BD", // Muted color - Light grey
+          foreground: "#495057", // Foreground color for muted
         },
         accent: {
-          // DEFAULT: "hsl(var(--accent))",
-          DEFAULT: "#ede8f5",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "#FFD700", // Accent color - Gold
+          foreground: "#212529", // Foreground color for accent
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "#FFFFFF", // Popover background color - White
+          foreground: "#212529", // Foreground color for popover
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "#FFFFFF", // Card background color - White
+          foreground: "#212529", // Foreground color for card
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "12px", // Large border radius for modern look
+        md: "8px", // Medium border radius
+        sm: "4px", // Small border radius
       },
       keyframes: {
         "accordion-down": {

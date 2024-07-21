@@ -5,12 +5,12 @@ import React from 'react'
 function PlanItemCard({ plan }) {
   const { user } = useUser();
   return (
-    <div className="rounded-2xl border border-gray-200 p-6 shadow-lg bg-white">
+    <div className="relative flex flex-col items-center p-8 bg-gradient-to-br from-white via-blue-50 to-green-50 rounded-xl shadow-xl transform transition-transform duration-500 hover:scale-105 hover:rotate-2">
+      <div className="absolute top-0 left-0 w-24 h-24 bg-blue-200 rounded-full opacity-50 animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-24 h-24 bg-green-200 rounded-full opacity-50 animate-pulse"></div>
       <div className="text-center">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          {plan.name}
-        </h2>
-        <p className="text-4xl font-bold text-indigo-600">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2">{plan.name}</h2>
+        <p className="text-3xl font-bold text-indigo-600">
           {plan.cost}$
           <span className="text-lg font-medium text-gray-600">/month</span>
         </p>

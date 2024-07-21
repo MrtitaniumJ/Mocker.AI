@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Lightbulb, Volume2 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
@@ -31,31 +31,34 @@ function QuestionsSection({
   };
 
   return mockInterviewQuestion.length > 0 && (
-    <div className='p-6 bg-white shadow-lg rounded-lg'>
-      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
+    <div className='p-6 bg-white shadow-xl rounded-lg'>
+      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         {mockInterviewQuestion.map((question, index) => (
-          <h2
+          <div
             key={index}
             onClick={() => handleQuestionClick(index)}
-            className={`p-2 border rounded-full text-xs md:text-sm text-center cursor-pointer
-              ${activeQuestionIndex === index ? 'bg-blue-500 text-white' : 
+            className={`p-3 border rounded-lg text-xs md:text-sm text-center cursor-pointer transition duration-300
+              ${activeQuestionIndex === index ? 'bg-teal-500 text-white' : 
                 answeredQuestions.includes(index) ? 'bg-green-500 text-white' : 
-                visitedQuestions.includes(index) ? 'bg-yellow-500 text-white' : 'bg-gray-200'}`}
+                visitedQuestions.includes(index) ? 'bg-yellow-400 text-white' : 'bg-gray-100'}`}
           >
             Question #{index + 1}
-          </h2>
+          </div>
         ))}
       </div>
-      <h2 className='my-5 text-md md:text-lg'>{mockInterviewQuestion[activeQuestionIndex]?.question}</h2>
-      <Volume2 className='cursor-pointer' onClick={() => textToSpeech(mockInterviewQuestion[activeQuestionIndex]?.question)} />
+      <h2 className='my-5 text-lg font-semibold'>{mockInterviewQuestion[activeQuestionIndex]?.question}</h2>
+      <Volume2 
+        className='cursor-pointer text-blue-600 hover:text-blue-800' 
+        onClick={() => textToSpeech(mockInterviewQuestion[activeQuestionIndex]?.question)} 
+      />
       
       {/* Next Public Question Note Section */}
-      <div className='border rounded-lg p-5 bg-blue-100 mt-10'>
-        <h2 className='flex gap-2 items-center text-blue-700'>
+      <div className='border rounded-lg p-4 bg-blue-50 mt-8'>
+        <h2 className='flex gap-2 items-center text-blue-700 text-sm'>
           <Lightbulb />
           <strong>Note:</strong>
         </h2>
-        <h2 className='text-sm text-blue-700 my-2'>{process.env.NEXT_PUBLIC_QUESTION_NOTE}</h2>
+        <p className='text-blue-600'>{process.env.NEXT_PUBLIC_QUESTION_NOTE}</p>
       </div>
     </div>
   );

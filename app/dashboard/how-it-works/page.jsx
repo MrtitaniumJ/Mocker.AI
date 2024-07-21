@@ -3,7 +3,7 @@ import React from 'react';
 
 const HowItWorks = () => {
     return (
-      <div id='how-it-works' className="min-h-screen flex flex-col bg-gradient-to-br from-blue-200 to-blue-300">
+      <div id='how-it-works' className="min-h-screen flex flex-col bg-gray-100">
   
         <main className="flex-grow">
           <section className="py-16 px-4 sm:px-6 lg:px-8">

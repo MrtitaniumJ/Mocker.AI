@@ -1,25 +1,52 @@
-import { pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, varchar, integer } from "drizzle-orm/pg-core";
 
-export const MockInterview=pgTable('mockInterview',{
-    id:serial('id').primaryKey(),
-    jsonMockResp:text('jsonMockResp').notNull(),
-    jobPosition:varchar('jobPosition').notNull(),
-    jobDesc:varchar('jobDesc').notNull(),
-    jobExperience:varchar('jobExperience').notNull(),
-    createdBy:varchar('createdBy').notNull(),
-    createdAt:varchar('createdAt'),
-    mockId:varchar('mockId').notNull(),
-})
+export const MockInterview = pgTable('mockInterview', {
+    id: serial('id').primaryKey(),
+    jsonMockResp: text('jsonMockResp').notNull(),
+    jobPosition: varchar('jobPosition').notNull(),
+    jobDesc: varchar('jobDesc').notNull(),
+    jobExperience: varchar('jobExperience').notNull(),
+    createdBy: varchar('createdBy').notNull(),
+    createdAt: varchar('createdAt'),
+    mockId: varchar('mockId').notNull(),
+});
 
-export const UserAnswer=pgTable('userAnswer',{
-    id:serial('id').primaryKey(),
-    mockIdRef:varchar('mockId').notNull(),
-    question:varchar('question').notNull(),
-    correctAns:text('correctAns'),
-    userAns:text('userAns'),
-    feedback:text('feedback'),
-    rating:varchar('rating'),
-    userEmail:varchar('userEmail'),
-    createdAt:varchar('createdAt'),
+export const MockQuiz = pgTable('mockQuiz', {
+    id: serial('id').primaryKey(),
+    title: varchar('title').notNull(),
+    description: text('description').notNull(),
+    jsonMockResp: text('jsonMockResp').notNull(),
+    jobPosition: varchar('jobPosition').notNull(),
+    jobDesc: varchar('jobDesc').notNull(),
+    jobExperience: varchar('jobExperience').notNull(),
+    createdBy: varchar('createdBy').notNull(),
+    createdAt: varchar('createdAt'),
+    quizId: varchar('quizId').notNull(),
+});
 
-})
+export const QuizAnswer = pgTable('quizAnswer', {
+    id: serial('id').primaryKey(),
+    quizIdRef: varchar('quizId').notNull(), // Reference to quizId
+    question: varchar('question').notNull(),
+    options: text('options').notNull(), // Added to store options in JSON format
+    correctOption: integer('correctOption').notNull(), // Added to store index of the correct option
+    explanation: text('explanation').notNull(), // Added to store explanation of the correct answer
+    userAns: text('userAns'),
+    feedback: text('feedback'),
+    rating: varchar('rating'),
+    userEmail: varchar('userEmail'),
+    createdBy: varchar('createdBy').notNull(),
+    createdAt: varchar('createdAt'),
+});
+
+export const UserAnswer = pgTable('userAnswer', {
+    id: serial('id').primaryKey(),
+    mockIdRef: varchar('mockId').notNull(),
+    question: varchar('question').notNull(),
+    correctAns: text('correctAns'),
+    userAns: text('userAns'),
+    feedback: text('feedback'),
+    rating: varchar('rating'),
+    userEmail: varchar('userEmail'),
+    createdAt: varchar('createdAt'),
+});
