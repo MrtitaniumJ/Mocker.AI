@@ -24,28 +24,28 @@ export default function Home() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center flex-1 text-center p-8 bg-white text-gray-900 min-h-screen">
+      <section className="relative flex flex-col items-center justify-center flex-1 text-center p-8 bg-white text-gray-900 h-screen">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500 to-purple-500 opacity-20"></div>
         <div className="relative z-20 max-w-4xl mx-auto">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extrabold mb-4 sm:mb-6 lg:mb-8 text-shadow-lg">
             Revolutionize Your Career
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 lg:mb-10">
+          <p className="text-xl md:text-2xl mb-8">
             Experience the future of career preparation with our AI-driven platform.
           </p>
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 mb-8 sm:mb-12 lg:mb-16 justify-center">
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-12 sm:mb-16 justify-center">
             <Button
-              size="sm"
+              size="lg"
               variant="primary"
-              className="bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 text-white py-2 px-4 rounded-lg shadow-md duration-300 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
+              className="bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 text-white py-3 px-6 rounded-lg shadow-xl duration-300 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
               onClick={() => router.push("/dashboard")}
             >
               Get Started
             </Button>
             <Button
-              size="sm"
+              size="lg"
               variant="outline"
-              className="border border-blue-500 text-blue-500 py-2 px-4 rounded-lg shadow-md transform transition-transform duration-300 hover:bg-blue-500 hover:text-white hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
+              className="border border-blue-500 text-blue-500 py-3 px-6 rounded-lg shadow-xl transform transition-transform duration-300 hover:bg-blue-500 hover:text-white hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
               onClick={() => router.push("/dashboard/how-it-works")}
             >
               Learn More
@@ -58,7 +58,7 @@ export default function Home() {
             className="text-blue-600 bg-transparent hover:text-blue-800 transition duration-300 ease-in-out"
           >
             <svg
-              className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce"
+              className="w-10 h-10 animate-bounce"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
