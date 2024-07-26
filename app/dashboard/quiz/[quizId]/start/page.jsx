@@ -17,8 +17,8 @@ function StartQuiz({ params }) {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
-  const [viewedQuestions, setViewedQuestions] = useState(new Set()); // Track viewed questions
-  const [quizTimer, setQuizTimer] = useState(0); // Initialize timer to 0
+  const [viewedQuestions, setViewedQuestions] = useState([]);
+  const [quizTimer, setQuizTimer] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const { user } = useUser();
@@ -26,8 +26,7 @@ function StartQuiz({ params }) {
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        const result = await db.select().from(MockQuiz)
-          .where(eq(MockQuiz.quizId, params.quizId));
+        const result = await db.select().from(MockQuiz).where(eq(MockQuiz.quizId, params.quizId));
 
         if (result.length > 0) {
           setQuizData(result[0]);
@@ -61,6 +60,15 @@ function StartQuiz({ params }) {
     }
   }, [quizTimer]);
 
+  useEffect(() => {
+    if (activeQuestionIndex !== null) {
+      // Ensure the current question is added to the viewedQuestions list
+      if (!viewedQuestions.includes(activeQuestionIndex)) {
+        setViewedQuestions(prev => [...prev, activeQuestionIndex]);
+      }
+    }
+  }, [activeQuestionIndex]);
+
   const handleAnswerSelect = (questionIndex, answerIndex) => {
     const updatedAnswers = [...userAnswers];
     updatedAnswers[questionIndex] = answerIndex;
@@ -68,17 +76,14 @@ function StartQuiz({ params }) {
   };
 
   const handleNextQuestion = () => {
-    setViewedQuestions(prev => new Set(prev).add(activeQuestionIndex));
     setActiveQuestionIndex(prevIndex => prevIndex + 1);
   };
 
   const handlePreviousQuestion = () => {
-    setViewedQuestions(prev => new Set(prev).add(activeQuestionIndex));
     setActiveQuestionIndex(prevIndex => prevIndex - 1);
   };
 
   const handleQuestionClick = (index) => {
-    setViewedQuestions(prev => new Set(prev).add(index));
     setActiveQuestionIndex(index);
   };
 
@@ -93,27 +98,32 @@ function StartQuiz({ params }) {
         return;
       }
 
-      const quizAnswers = quizQuestions.map((question, index) => ({
+      const quizAnswers = {
         quizIdRef: quizData.quizId,
-        question: question.question,
-        options: JSON.stringify(question.options),
-        correctOption: question.correctOption,
-        explanation: question.explanation,
-        userAns: userAnswers[index] !== undefined ? userAnswers[index] : null,
+        answers: quizQuestions.map((question, index) => ({
+          question: question.question,
+          options: question.options,
+          correctOption: question.correctOption,
+          explanation: question.explanation,
+          userAns: userAnswers[index] !== undefined ? userAnswers[index] : null,
+        })),
         createdBy: user?.primaryEmailAddress?.emailAddress,
         createdAt: new Date().toISOString(),
-      }));
+      };
 
-      // Log the data to check if it's correctly populated
       console.log("Quiz answers to submit: ", quizAnswers);
 
-      // Ensure quizAnswers is not empty
-      if (quizAnswers.length === 0) {
+      if (quizAnswers.answers.length === 0) {
         console.log("No answers to submit.");
         return;
       }
 
-      await db.insert(QuizAnswer).values(quizAnswers);
+      const existingEntry = await db.select().from(QuizAnswer).where(eq(QuizAnswer.quizIdRef, quizData.quizId));
+      if (existingEntry.length > 0) {
+        await db.update(QuizAnswer).set(quizAnswers).where(eq(QuizAnswer.quizIdRef, quizData.quizId));
+      } else {
+        await db.insert(QuizAnswer).values(quizAnswers);
+      }
 
       console.log("Quiz answers submitted successfully");
       router.replace(`/dashboard/quiz/${quizData.quizId}/feedback`);
@@ -127,7 +137,7 @@ function StartQuiz({ params }) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-8">
       <div className="w-full max-w-5xl bg-white shadow-xl rounded-2xl overflow-hidden ring-1 ring-gray-900/10 animate-fadeIn grid grid-cols-1 md:grid-cols-3">
-        
+
         {/* Timer Section */}
         <div className="flex flex-col items-center justify-between p-4 border-b md:border-b-0 md:border-r border-gray-200 bg-indigo-200 md:col-span-1 rounded-t-2xl md:rounded-tr-none md:rounded-l-2xl">
           <div className="flex items-center gap-2 text-gray-800 mb-4">
@@ -153,12 +163,19 @@ function StartQuiz({ params }) {
             <>
               <div className="mb-6">
                 <h3 className="text-2xl font-semibold mb-6 text-gray-900">{quizQuestions[activeQuestionIndex]?.question}</h3>
-                <RadioGroup value={userAnswers[activeQuestionIndex]} onChange={(index) => handleAnswerSelect(activeQuestionIndex, index)}>
+                <RadioGroup
+                  value={userAnswers[activeQuestionIndex] ?? null}
+                  onChange={(index) => handleAnswerSelect(activeQuestionIndex, index)}
+                >
                   <div className="space-y-4">
                     {quizQuestions[activeQuestionIndex]?.options.map((option, index) => (
-                      <RadioGroup.Option key={index} value={index} className={({ active, checked }) =>
-                        `relative flex items-center p-5 border rounded-xl cursor-pointer transition-transform duration-300 ease-in-out ${checked ? 'bg-gradient-to-r from-green-400 to-blue-500 text-white' : 'bg-white text-gray-800 border-gray-300'} shadow-lg transform ${active ? 'scale-105' : ''}`
-                      }>
+                      <RadioGroup.Option
+                        key={index}
+                        value={index}
+                        className={({ active, checked }) =>
+                          `relative flex items-center p-5 border rounded-xl cursor-pointer transition-transform duration-300 ease-in-out ${checked ? 'bg-gradient-to-r from-green-400 to-blue-500 text-white' : 'bg-white text-gray-800 border-gray-300'} shadow-lg transform ${active ? 'scale-105' : ''}`
+                        }
+                      >
                         {({ checked }) => (
                           <>
                             <span className={`absolute left-5 text-2xl ${checked ? 'text-white' : 'text-gray-800'}`}>
@@ -174,19 +191,23 @@ function StartQuiz({ params }) {
               </div>
               <div className="flex justify-between items-center p-4 border-t border-gray-200 bg-indigo-200 rounded-b-2xl">
                 {activeQuestionIndex > 0 && (
-                  <Button className="flex items-center gap-2 bg-gray-800 hover:bg-gray-900 text-white px-6 py-3 rounded-xl shadow-md transition-transform duration-300 transform hover:scale-105" onClick={handlePreviousQuestion}>
+                  <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-md transition-transform duration-300 transform hover:scale-105" onClick={handlePreviousQuestion}>
                     <BsFillArrowLeftCircleFill size={20} />
                     Previous
                   </Button>
                 )}
-                <Button className='flex items-center gap-2 bg-gradient-to-r from-teal-400 to-blue-600 hover:from-teal-500 hover:to-blue-700 text-white px-6 py-3 rounded-xl shadow-md transition-transform duration-300 transform hover:scale-105' onClick={activeQuestionIndex < quizQuestions.length - 1 ? handleNextQuestion : handleSubmitQuiz}>
-                  {activeQuestionIndex < quizQuestions.length - 1 ? 'Next Question' : 'Submit Quiz'}
-                  {activeQuestionIndex < quizQuestions.length - 1 ? <BsFillArrowRightCircleFill size={20} /> : <AiOutlineCheckCircle size={20} />}
+                                <Button className='flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-md transition-transform duration-300 transform hover:scale-105' 
+                  onClick={activeQuestionIndex < quizQuestions.length - 1 ? handleNextQuestion : handleSubmitQuiz}
+                >
+                  {activeQuestionIndex < quizQuestions.length - 1 ? 'Next' : 'Finish'}
+                  {activeQuestionIndex < quizQuestions.length - 1 ? 
+                    <BsFillArrowRightCircleFill size={20} /> : 
+                    <AiOutlineCheckCircle size={20} />}
                 </Button>
               </div>
             </>
           ) : (
-            <p className="text-gray-700 text-xl">Loading questions...</p>
+            <p className="text-center text-gray-600">Loading questions...</p>
           )}
         </div>
       </div>
@@ -195,3 +216,4 @@ function StartQuiz({ params }) {
 }
 
 export default StartQuiz;
+

@@ -1,4 +1,4 @@
-import { pgTable, serial, text, varchar, integer } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, varchar, integer, jsonb } from "drizzle-orm/pg-core";
 
 export const MockInterview = pgTable('mockInterview', {
     id: serial('id').primaryKey(),
@@ -27,14 +27,7 @@ export const MockQuiz = pgTable('mockQuiz', {
 export const QuizAnswer = pgTable('quizAnswer', {
     id: serial('id').primaryKey(),
     quizIdRef: varchar('quizId').notNull(), // Reference to quizId
-    question: varchar('question').notNull(),
-    options: text('options').notNull(), // Added to store options in JSON format
-    correctOption: integer('correctOption').notNull(), // Added to store index of the correct option
-    explanation: text('explanation').notNull(), // Added to store explanation of the correct answer
-    userAns: text('userAns'),
-    feedback: text('feedback'),
-    rating: varchar('rating'),
-    userEmail: varchar('userEmail'),
+    answers: jsonb('answers').notNull(), // Store all answers in JSON format
     createdBy: varchar('createdBy').notNull(),
     createdAt: varchar('createdAt'),
 });

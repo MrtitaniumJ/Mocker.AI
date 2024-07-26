@@ -10,12 +10,12 @@ function QuestionsList({ quizQuestions, activeQuestionIndex, userAnswers, viewed
         {quizQuestions.map((question, index) => (
           <button
             key={index}
-            className={`p-2 border rounded-lg flex items-center gap-2 w-full ${activeQuestionIndex === index ? 'bg-indigo-300' : 'bg-white'} ${userAnswers[index] !== undefined ? 'border-green-400' : viewedQuestions.has(index) ? 'border-yellow-400' : 'border-gray-300'}`}
+            className={`p-2 border rounded-lg flex items-center gap-2 w-full ${activeQuestionIndex === index ? 'bg-indigo-300' : 'bg-white'} ${userAnswers[index] !== undefined ? 'border-green-400' : viewedQuestions.includes(index) ? 'border-yellow-400' : 'border-gray-300'}`}
             onClick={() => setActiveQuestionIndex(index)}
           >
             {userAnswers[index] !== undefined ? (
               <BsCheckCircleFill className="text-green-500" size={20} />
-            ) : viewedQuestions.has(index) ? (
+            ) : viewedQuestions.includes(index) ? (
               <BsEyeFill className="text-yellow-500" size={20} />
             ) : (
               <BsCircle className="text-gray-400" size={20} />
