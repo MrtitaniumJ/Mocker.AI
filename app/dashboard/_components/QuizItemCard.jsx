@@ -1,12 +1,15 @@
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import { db } from '@/utils/db';
 import { MockQuiz } from '@/utils/schema';
 import { MdOutlineDelete } from "react-icons/md";
 import { eq } from 'drizzle-orm';
+import ConfirmationModal from './ConfirmationModal';
+import { toast } from 'sonner'; // Import toast
 
 function QuizItemCard({ quiz, onDelete }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   const onStart = () => {
@@ -18,19 +21,31 @@ function QuizItemCard({ quiz, onDelete }) {
   };
 
   const onDeleteClick = async () => {
+    setIsModalOpen(true); // Open the confirmation modal
+  };
+
+  const handleConfirm = async () => {
     try {
       const deleteResult = await db.delete(MockQuiz)
         .where(eq(MockQuiz.quizId, quiz.quizId))
         .execute();
 
       if (deleteResult) {
-        onDelete(quiz.id); // call the onDelete function passed as a prop
+        onDelete(quiz.id); // Call the onDelete function passed as a prop
+        toast.success('Quiz deleted successfully'); // Show success toast
       } else {
-        console.error('Failed to delete quiz');
+        toast.error('Failed to delete quiz'); // Show error toast if deletion fails
       }
     } catch (error) {
       console.error('Error deleting quiz: ', error);
+      toast.error('Error deleting quiz'); // Show error toast on catch
+    } finally {
+      setIsModalOpen(false); // Close the modal after action
     }
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false); // Close the modal without action
   };
 
   return (
@@ -60,6 +75,12 @@ function QuizItemCard({ quiz, onDelete }) {
           Start
         </Button>
       </div>
+
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
     </div>
   );
 }

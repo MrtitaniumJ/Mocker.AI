@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion'; // For animations
-import { Trophy, Star, Sparkles } from 'lucide-react'; // Icons
-import Confetti from 'react-confetti'; // Party effect
+import { motion } from 'framer-motion';
+import { Trophy, Star, Sparkles } from 'lucide-react';
+import Confetti from 'react-confetti';
 
-const ScoreDisplay = ({ score }) => {
+const ScoreDisplay = ({ score, correctAnswers, totalQuestions }) => {
   const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const ScoreDisplay = ({ score }) => {
           )}
         </h2>
         <p className='text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2'>
-          Your Score: <span className='font-extrabold text-gray-900'>{score.toFixed(2)}%</span>
+          Your Score: <span className='font-extrabold text-gray-900'>{score.toFixed(2)}% ({correctAnswers}/{totalQuestions})</span>
         </p>
         <p className='mt-2 text-sm sm:text-base md:text-lg lg:text-xl text-gray-800'>
           {score >= 50

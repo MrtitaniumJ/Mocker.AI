@@ -11,6 +11,7 @@ import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from "react-ico
 import { FaRegClock } from "react-icons/fa";
 import { RadioGroup } from '@headlessui/react';
 import QuestionsList from "./_components/QuestionsList";
+import { toast } from 'sonner'; // Import toast
 
 function StartQuiz({ params }) {
   const [quizData, setQuizData] = useState(null);
@@ -126,9 +127,11 @@ function StartQuiz({ params }) {
       }
 
       console.log("Quiz answers submitted successfully");
+      toast.success('Quiz submitted successfully!'); // Show success toast
       router.replace(`/dashboard/quiz/${quizData.quizId}/feedback`);
     } catch (error) {
       console.log('Error submitting quiz answers: ', error);
+      toast.error('Error submitting quiz'); // Show error toast on catch
     } finally {
       setIsSubmitting(false); // Reset submitting state
     }
@@ -196,7 +199,7 @@ function StartQuiz({ params }) {
                     Previous
                   </Button>
                 )}
-                                <Button className='flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-md transition-transform duration-300 transform hover:scale-105' 
+                <Button className='flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-md transition-transform duration-300 transform hover:scale-105' 
                   onClick={activeQuestionIndex < quizQuestions.length - 1 ? handleNextQuestion : handleSubmitQuiz}
                 >
                   {activeQuestionIndex < quizQuestions.length - 1 ? 'Next' : 'Finish'}
@@ -216,4 +219,3 @@ function StartQuiz({ params }) {
 }
 
 export default StartQuiz;
-

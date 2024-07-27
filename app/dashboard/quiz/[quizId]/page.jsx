@@ -90,7 +90,7 @@ function Quiz({ params }) {
                 </div>
                 <div className="flex flex-col gap-8 p-8 bg-yellow-50 rounded-lg border-l-4 border-yellow-400 shadow-lg">
                     <h2 className="flex items-center gap-2 text-2xl font-semibold text-yellow-600"><Lightbulb className="text-yellow-700" /> Information</h2>
-                    <p className="mt-4 text-lg leading-relaxed">{process.env.NEXT_PUBLIC_QUIZ_INFORMATION}</p> //added
+                    <p className="mt-4 text-lg leading-relaxed">{process.env.NEXT_PUBLIC_QUIZ_INFORMATION}</p>
                 </div>
             </div>
             <div className="flex justify-end mt-12">
