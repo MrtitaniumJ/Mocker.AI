@@ -37,7 +37,7 @@ const Footer = () => {
             </p>
             <div className="flex justify-center lg:justify-start space-x-6 mb-8 lg:mb-0">
               <a href="https://github.com/MrtitaniumJ" aria-label="Facebook" className="transition-transform transform hover:scale-110">
-                <FaGithub className="text-3xl text-black hover:text-gray-800" />
+                <FaGithub className="text-3xl text-gray-800 hover:text-black" />
               </a>
               <a href="https://x.com/jksharma_jatin" aria-label="Twitter" className="transition-transform transform hover:scale-110">
                 <FaTwitter className="text-3xl text-gray-800 hover:text-blue-400" />
