@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaGithub } from 'react-icons/fa';
 import { Button } from "@/components/ui/button";
 
 const Footer = () => {
@@ -36,16 +36,16 @@ const Footer = () => {
               Stay in touch with us through social media or reach out for more information.
             </p>
             <div className="flex justify-center lg:justify-start space-x-6 mb-8 lg:mb-0">
-              <a href="#" aria-label="Facebook" className="transition-transform transform hover:scale-110">
-                <FaFacebookF className="text-3xl text-gray-800 hover:text-blue-800" />
+              <a href="https://github.com/MrtitaniumJ" aria-label="Facebook" className="transition-transform transform hover:scale-110">
+                <FaGithub className="text-3xl text-black hover:text-gray-800" />
               </a>
-              <a href="#" aria-label="Twitter" className="transition-transform transform hover:scale-110">
+              <a href="https://x.com/jksharma_jatin" aria-label="Twitter" className="transition-transform transform hover:scale-110">
                 <FaTwitter className="text-3xl text-gray-800 hover:text-blue-400" />
               </a>
-              <a href="#" aria-label="LinkedIn" className="transition-transform transform hover:scale-110">
+              <a href="https://www.linkedin.com/in/jatin-sharma-82121217a/" aria-label="LinkedIn" className="transition-transform transform hover:scale-110">
                 <FaLinkedinIn className="text-3xl text-gray-800 hover:text-blue-600" />
               </a>
-              <a href="#" aria-label="Instagram" className="transition-transform transform hover:scale-110">
+              <a href="https://www.instagram.com/then_its_mr.j/" aria-label="Instagram" className="transition-transform transform hover:scale-110">
                 <FaInstagram className="text-3xl text-gray-800 hover:text-pink-500" />
               </a>
             </div>
@@ -55,6 +55,7 @@ const Footer = () => {
               size="lg"
               variant="primary"
               className="bg-white text-gray-900 hover:bg-gray-200 py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300"
+              onClick={() => alert('Contact feature coming soon!')}
             >
               Contact Us
             </Button>

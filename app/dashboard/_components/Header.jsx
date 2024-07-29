@@ -59,6 +59,7 @@ function Header() {
                     <NavItem href="/dashboard" path={path} label="Dashboard" />
                     <NavItem href="/dashboard/upgrade" path={path} label="Upgrade" />
                     <NavItem href="/dashboard/how-it-works" path={path} label="How it Works?" />
+                    <NavItem href="/dashboard/tracking-panel" path={path} label="Analytics" closeMenu={() => setMenuOpen(false)} />
                 </ul>
             </nav>
 
@@ -75,6 +76,7 @@ function Header() {
                             <NavItem href="/dashboard" path={path} label="Dashboard" closeMenu={() => setMenuOpen(false)} />
                             <NavItem href="/dashboard/upgrade" path={path} label="Upgrade" closeMenu={() => setMenuOpen(false)} />
                             <NavItem href="/dashboard/how-it-works" path={path} label="How it Works?" closeMenu={() => setMenuOpen(false)} />
+                            <NavItem href="/dashboard/tracking-panel" path={path} label="Track" closeMenu={() => setMenuOpen(false)} />
                         </ul>
                     </nav>
                     <div className="mt-4 flex items-center gap-4">
