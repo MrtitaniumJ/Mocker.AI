@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   return (
-    <footer className="relative bg-gray-100 text-gray-800 py-16 relative overflow-hidden">
+    <footer className="relative bg-gray-100 text-gray-800 py-16 overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <svg
           className="absolute top-0 left-0 -translate-x-1/4 -translate-y-1/4"
