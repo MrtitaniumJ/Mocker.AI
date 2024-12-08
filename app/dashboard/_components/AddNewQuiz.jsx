@@ -34,22 +34,21 @@ function AddNewQuiz() {
   const onSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-
+  
     const InputPrompt = `Quiz name: ${title}, Description: ${description}, Job Position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}. Provide 20-30 multiple-choice questions with options and explanations in JSON format. Each question should include fields "question", "options" (array of options), "correctOption" (index of the correct option), and "explanation". Do not include additional text.`;
-
+  
     try {
       const result = await chatSession.sendMessage(InputPrompt);
-      const MockJsonResp = result.response.text().replace('```json', '').replace('```', '').trim(); // Trim here
-
-      setJsonResponse(MockJsonResp);
-
-      if (MockJsonResp) {
+      const rawResponse = result.response.text();
+      const sanitizedJson = sanitizeAndValidateJson(rawResponse);
+  
+      if (sanitizedJson) {
         const resp = await db.insert(MockQuiz)
           .values({
             mockId: uuidv4(),
             title: title,
             description: description,
-            jsonMockResp: MockJsonResp,
+            jsonMockResp: sanitizedJson,
             jobPosition: jobPosition,
             jobDesc: jobDesc,
             jobExperience: jobExperience,
@@ -57,20 +56,40 @@ function AddNewQuiz() {
             createdAt: moment().format('DD-MM-yyyy'),
             quizId: uuidv4()
           }).returning({ quizId: MockQuiz.quizId });
-
+  
         if (resp) {
           setOpenDialog(false);
           router.push('/dashboard/quiz/' + resp[0]?.quizId);
-        } else {
-          console.log("ERROR");
         }
-      } else {
-        console.log("Error generating quiz questions");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Failed to create quiz. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const sanitizeAndValidateJson = (jsonString) => {
+    // Remove markdown code blocks and whitespace
+    const cleaned = jsonString
+      .replace(/```json\s*|\s*```/g, '')
+      .trim();
+    
+    try {
+      // Parse and stringify to ensure valid JSON
+      const parsed = JSON.parse(cleaned);
+      // Clean up each question
+      const cleanedQuestions = parsed.map(q => ({
+        ...q,
+        question: q.question.replace(/```/g, '').trim(),
+        options: q.options.map(opt => opt.trim())
+      }));
+      return JSON.stringify(cleanedQuestions);
+    } catch (error) {
+      console.error('JSON validation error:', error);
+      throw new Error('Invalid quiz data format');
+    }
   };
 
   return (
@@ -84,9 +103,9 @@ function AddNewQuiz() {
               <form onSubmit={onSubmit} className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Title</label>
-                  <Input 
-                    className="mt-2 w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" 
-                    placeholder="Ex. JavaScript Fundamentals" 
+                  <Input
+                    className="mt-2 w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="Ex. JavaScript Fundamentals"
                     required
                     value={title}
                     onChange={(event) => setTitle(event.target.value)}
@@ -94,9 +113,9 @@ function AddNewQuiz() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Description</label>
-                  <Textarea 
-                    className="mt-2 w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" 
-                    placeholder="Ex. A comprehensive quiz about JavaScript basics" 
+                  <Textarea
+                    className="mt-2 w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="Ex. A comprehensive quiz about JavaScript basics"
                     required
                     value={description}
                     onChange={(event) => setDescription(event.target.value)}
@@ -104,9 +123,9 @@ function AddNewQuiz() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Job Position</label>
-                  <Input 
-                    className="mt-2 w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" 
-                    placeholder="Ex. Full Stack Developer" 
+                  <Input
+                    className="mt-2 w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="Ex. Full Stack Developer"
                     required
                     value={jobPosition}
                     onChange={(event) => setJobPosition(event.target.value)}
@@ -114,9 +133,9 @@ function AddNewQuiz() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Job Description/Tech Stack</label>
-                  <Textarea 
-                    className="mt-2 w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" 
-                    placeholder="Ex. React, NextJs, NodeJs, MySQL" 
+                  <Textarea
+                    className="mt-2 w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="Ex. React, NextJs, NodeJs, MySQL"
                     required
                     value={jobDesc}
                     onChange={(event) => setJobDesc(event.target.value)}
@@ -124,11 +143,11 @@ function AddNewQuiz() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Years of Experience</label>
-                  <Input 
-                    className="mt-2 w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" 
-                    placeholder="Ex. 5" 
-                    type="number" 
-                    max="100" 
+                  <Input
+                    className="mt-2 w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="Ex. 5"
+                    type="number"
+                    max="100"
                     required
                     value={jobExperience}
                     onChange={(event) => setJobExperience(event.target.value)}

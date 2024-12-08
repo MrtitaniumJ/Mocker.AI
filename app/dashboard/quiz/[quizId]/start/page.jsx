@@ -21,8 +21,30 @@ function StartQuiz({ params }) {
   const [viewedQuestions, setViewedQuestions] = useState([]);
   const [quizTimer, setQuizTimer] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
   const router = useRouter();
   const { user } = useUser();
+
+  const sanitizeJsonString = (jsonString) => {
+    try {
+      // Remove code block markers and extra whitespace
+      let cleaned = jsonString.replace(/```json\s*|\s*```/g, '').trim();
+      
+      // Remove any potential BOM characters
+      cleaned = cleaned.replace(/^\uFEFF/, '');
+      
+      // Clean up question text (remove extra backticks and newlines)
+      cleaned = cleaned.replace(/\\n```/g, '');
+      cleaned = cleaned.replace(/```$/gm, '');
+      
+      // Parse and stringify to ensure valid JSON
+      const parsed = JSON.parse(cleaned);
+      return parsed;
+    } catch (error) {
+      console.error('Sanitization error:', error);
+      throw new Error('Failed to sanitize JSON data');
+    }
+  };
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -31,14 +53,37 @@ function StartQuiz({ params }) {
 
         if (result.length > 0) {
           setQuizData(result[0]);
-          const questions = JSON.parse(result[0]?.jsonMockResp || '[]');
-          setQuizQuestions(questions);
-          setQuizTimer(5 * 60); // Set timer to 5 minutes (300 seconds)
+          
+          try {
+            const questions = sanitizeJsonString(result[0]?.jsonMockResp || '[]');
+            
+            if (Array.isArray(questions) && questions.length > 0) {
+              // Clean up each question's content
+              const cleanedQuestions = questions.map(q => ({
+                ...q,
+                question: q.question.replace(/```/g, '').trim(),
+                options: q.options.map(opt => opt.trim())
+              }));
+              
+              setQuizQuestions(cleanedQuestions);
+              setQuizTimer(10 * 60);
+            } else {
+              setError('No questions found in the quiz data');
+              toast.error('No questions found in the quiz');
+            }
+          } catch (parseError) {
+            console.error('Parse error:', parseError);
+            setError('Failed to parse quiz questions');
+            toast.error('Failed to load quiz questions');
+          }
         } else {
-          console.log('Quiz not found');
+          setError('Quiz not found');
+          toast.error('Quiz not found');
         }
       } catch (error) {
-        console.log('Error fetching quiz details: ', error);
+        console.error('Error fetching quiz details:', error);
+        setError('Failed to fetch quiz details');
+        toast.error('Failed to load quiz');
       }
     };
 
@@ -199,12 +244,12 @@ function StartQuiz({ params }) {
                     Previous
                   </Button>
                 )}
-                <Button className='flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-md transition-transform duration-300 transform hover:scale-105' 
+                <Button className='flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-md transition-transform duration-300 transform hover:scale-105'
                   onClick={activeQuestionIndex < quizQuestions.length - 1 ? handleNextQuestion : handleSubmitQuiz}
                 >
                   {activeQuestionIndex < quizQuestions.length - 1 ? 'Next' : 'Finish'}
-                  {activeQuestionIndex < quizQuestions.length - 1 ? 
-                    <BsFillArrowRightCircleFill size={20} /> : 
+                  {activeQuestionIndex < quizQuestions.length - 1 ?
+                    <BsFillArrowRightCircleFill size={20} /> :
                     <AiOutlineCheckCircle size={20} />}
                 </Button>
               </div>

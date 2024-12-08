@@ -25,13 +25,13 @@ const QuizDashboard = () => {
           <p className="mt-2 text-gray-600">Track your quiz performance and achievements</p>
         </div>
 
-        {/* <div className="p-6">
+        <div className="p-6">
           <StatsSummary />
         </div>
 
         <div className="p-6 ">
           <PerformanceOverview />
-        </div> */}
+        </div>
 
         <div className="p-6">
           <LeaderBoard />

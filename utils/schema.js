@@ -1,4 +1,15 @@
+import { timestamp } from "drizzle-orm/mysql-core";
 import { pgTable, serial, text, varchar, integer, jsonb } from "drizzle-orm/pg-core";
+
+// export const User = pgTable('users', {
+//     id: serial('id').primaryKey(),
+//     email: varchar('email', {length: 255}).primaryKey(),
+//     passwordHash: text('passwordHash').notNull(),
+//     fullName: varchar('fullName', {length: 255}).notNull(),
+//     createdAt: timestamp('createdAt').defaultNow(),
+//     updatedAt: timestamp('updatedAt').defaultNow().onUpdateNow(),
+// });
+
 
 export const MockInterview = pgTable('mockInterview', {
     id: serial('id').primaryKey(),
@@ -6,7 +17,7 @@ export const MockInterview = pgTable('mockInterview', {
     jobPosition: varchar('jobPosition').notNull(),
     jobDesc: varchar('jobDesc').notNull(),
     jobExperience: varchar('jobExperience').notNull(),
-    createdBy: varchar('createdBy').notNull(),
+    createdBy: varchar('createdBy').notNull(), //link to user id
     createdAt: varchar('createdAt'),
     mockId: varchar('mockId').notNull(),
 });
