@@ -28,7 +28,7 @@ function Header() {
         <header className="flex p-4 items-center justify-between bg-white dark:bg-gray-800 shadow-md relative">
             <Link href="/">
                 <h1 className="text-3xl font-extrabold cursor-pointer text-gray-800 dark:text-white">
-                    Mocker.AI
+                    HireZen
                 </h1>
             </Link>
 

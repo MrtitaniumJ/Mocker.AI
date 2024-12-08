@@ -63,7 +63,7 @@ const Footer = () => {
         </div>
         <div className="border-t border-gray-300 pt-6 text-center">
           <p className="text-gray-800 text-sm">
-            © {new Date().getFullYear()} Mocker.AI. All rights reserved.
+            © {new Date().getFullYear()} HireZen. All rights reserved.
           </p>
         </div>
       </div>

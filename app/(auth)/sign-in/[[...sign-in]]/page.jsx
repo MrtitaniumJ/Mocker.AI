@@ -33,7 +33,7 @@ export default function Page() {
             </a>
 
             <h2 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl">
-              Welcome to Mocker.AI
+              Welcome to HireZen
             </h2>
 
             <p className="mt-4 leading-relaxed text-white/90 text-lg">

@@ -12,7 +12,7 @@ const HowItWorks = () => {
   
               <div className="mb-12">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4">Step 1: Sign Up</h2>
-                <p className="text-gray-600">Create your account on Mocker.AI to get started.</p>
+                <p className="text-gray-600">Create your account on HireZen to get started.</p>
               </div>
   
               <div className="mb-12">

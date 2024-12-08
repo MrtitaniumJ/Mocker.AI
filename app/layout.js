@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 const inter = Outfit({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Mocker.AI : Smart Mock Interviewer",
+  title: "HireZen : Be job-ready with tailored career tools",
   description: "One step solution to prepare for interviews through this smart AI Mock Interview Platform",
 };
 
